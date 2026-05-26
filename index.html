@@ -107,7 +107,7 @@
       width: 100%;
       max-width: 720px;
       margin: 0 auto;
-      padding: 10px 8px 18px;
+      padding: 10px 8px 248px;
       flex: 1;
     }
 
@@ -195,10 +195,21 @@
     .row {
       min-height: 54px;
       border-bottom: 1px solid var(--grid);
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
     }
 
     .row:last-child {
       border-bottom: 0;
+    }
+
+    .row.active-row {
+      box-shadow: inset 0 0 0 2px var(--green);
+    }
+
+    .row.active-row .row-number {
+      background: var(--green);
+      color: #fff;
     }
 
     .row-number {
@@ -330,9 +341,110 @@
       transform: scale(.99);
     }
 
+    .keypad {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 20;
+      padding: 8px 8px max(8px, env(safe-area-inset-bottom));
+      background: rgba(243, 246, 244, .96);
+      border-top: 1px solid var(--grid-dark);
+      box-shadow: 0 -10px 24px rgba(26, 45, 55, .14);
+      backdrop-filter: blur(10px);
+    }
+
+    .keypad-inner {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .entry-display {
+      display: grid;
+      grid-template-columns: 44px minmax(0, 1fr);
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 7px;
+    }
+
+    .entry-row {
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--grid-dark);
+      border-radius: 4px;
+      background: var(--header);
+      color: var(--green-dark);
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .entry-expression {
+      min-width: 0;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      border: 1px solid var(--grid-dark);
+      border-radius: 4px;
+      padding: 6px 10px;
+      background: #fff;
+      color: var(--text);
+      font-size: 20px;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .keys {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+    }
+
+    .key {
+      min-height: 44px;
+      border: 1px solid var(--grid-dark);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--text);
+      font-size: 19px;
+      font-weight: 800;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .key:active {
+      transform: scale(.98);
+    }
+
+    .key.op-key {
+      background: #f7faf8;
+      color: var(--green-dark);
+    }
+
+    .key.utility-key {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .key.enter-key {
+      background: var(--green);
+      border-color: var(--green);
+      color: #fff;
+      grid-row: span 2;
+    }
+
+    .key.zero-key {
+      grid-column: span 2;
+    }
+
     @media (max-width: 430px) {
       main {
         padding-inline: 8px;
+        padding-bottom: 238px;
       }
 
       .column-labels,
@@ -350,6 +462,15 @@
       .result-value {
         font-size: 16px;
       }
+
+      .key {
+        min-height: 42px;
+        font-size: 18px;
+      }
+
+      .entry-expression {
+        font-size: 19px;
+      }
     }
   </style>
 </head>
@@ -364,7 +485,7 @@
         </button>
         <div class="title-block">
           <h1>単位あたり計算</h1>
-          <div class="subtitle">数値入力 + 演算子ボタン</div>
+          <div class="subtitle">下のキーで連続入力</div>
         </div>
         <button class="icon-button" type="button" id="addRowTop" aria-label="行を追加">
           <svg width="23" height="23" viewBox="0 0 24 24" aria-hidden="true">
@@ -404,6 +525,35 @@
         <button class="action" type="button" id="resetRows">6行に戻す</button>
       </div>
     </main>
+
+    <footer class="keypad" aria-label="計算キーボード">
+      <div class="keypad-inner">
+        <div class="entry-display">
+          <div class="entry-row" id="activeRowLabel">1</div>
+          <div class="entry-expression" id="entryExpression">0</div>
+        </div>
+        <div class="keys">
+          <button class="key utility-key" type="button" data-key="clear">C</button>
+          <button class="key utility-key" type="button" data-key="back">⌫</button>
+          <button class="key op-key" type="button" data-key="/">÷</button>
+          <button class="key op-key" type="button" data-key="*">×</button>
+          <button class="key" type="button" data-key="7">7</button>
+          <button class="key" type="button" data-key="8">8</button>
+          <button class="key" type="button" data-key="9">9</button>
+          <button class="key op-key" type="button" data-key="+">+</button>
+          <button class="key" type="button" data-key="4">4</button>
+          <button class="key" type="button" data-key="5">5</button>
+          <button class="key" type="button" data-key="6">6</button>
+          <button class="key op-key" type="button" data-key="-">−</button>
+          <button class="key" type="button" data-key="1">1</button>
+          <button class="key" type="button" data-key="2">2</button>
+          <button class="key" type="button" data-key="3">3</button>
+          <button class="key enter-key" type="button" data-key="enter">=</button>
+          <button class="key zero-key" type="button" data-key="0">0</button>
+          <button class="key" type="button" data-key=".">.</button>
+        </div>
+      </div>
+    </footer>
   </div>
 
   <template id="rowTemplate">
@@ -411,7 +561,7 @@
       <div class="row-number"></div>
       <div class="fields">
         <div class="field">
-          <input class="value-a" type="number" inputmode="decimal" step="any" placeholder="0" aria-label="左の数値">
+          <input class="value-a" type="number" inputmode="decimal" step="any" placeholder="0" aria-label="左の数値" readonly>
         </div>
 
         <div class="op-cell">
@@ -424,7 +574,7 @@
         </div>
 
         <div class="result-cell">
-          <input class="value-b" type="number" inputmode="decimal" step="any" placeholder="0" aria-label="右の数値">
+          <input class="value-b" type="number" inputmode="decimal" step="any" placeholder="0" aria-label="右の数値" readonly>
         </div>
 
         <div class="result-cell">
@@ -440,12 +590,16 @@
     const template = document.querySelector("#rowTemplate");
     const filledCountEl = document.querySelector("#filledCount");
     const resultTotalEl = document.querySelector("#resultTotal");
+    const activeRowLabelEl = document.querySelector("#activeRowLabel");
+    const entryExpressionEl = document.querySelector("#entryExpression");
     const operators = {
       "/": { label: "÷" },
       "*": { label: "×" },
       "+": { label: "+" },
       "-": { label: "−" }
     };
+    const entry = { a: "", op: "", b: "" };
+    let activeRow = null;
 
     function formatNumber(value) {
       if (!Number.isFinite(value)) return "";
@@ -461,6 +615,89 @@
       if (op === "-") return { value: a - b, message: "" };
       if (op === "*") return { value: a * b, message: "" };
       return { value: a / b, message: "" };
+    }
+
+    function displayExpression() {
+      const parts = [];
+      if (entry.a) parts.push(entry.a);
+      if (entry.op) parts.push(operators[entry.op].label);
+      if (entry.b) parts.push(entry.b);
+      entryExpressionEl.textContent = parts.join(" ") || "0";
+    }
+
+    function clearEntry() {
+      entry.a = "";
+      entry.op = "";
+      entry.b = "";
+      displayExpression();
+    }
+
+    function activeRows() {
+      return [...rowsEl.querySelectorAll(".row")];
+    }
+
+    function setActiveRow(row) {
+      activeRows().forEach((current) => current.classList.remove("active-row"));
+      activeRow = row;
+      activeRow.classList.add("active-row");
+      activeRowLabelEl.textContent = activeRow.querySelector(".row-number").textContent;
+    }
+
+    function moveToNextRow() {
+      const rows = activeRows();
+      const currentIndex = rows.indexOf(activeRow);
+      const nextRow = rows[currentIndex + 1] || addRow();
+      setActiveRow(nextRow);
+      nextRow.scrollIntoView({ block: "nearest" });
+    }
+
+    function appendNumberKey(key) {
+      const target = entry.op ? "b" : "a";
+      if (key === "." && entry[target].includes(".")) return;
+      if (key === "." && entry[target] === "") {
+        entry[target] = "0.";
+      } else if (entry[target] === "0" && key !== ".") {
+        entry[target] = key;
+      } else {
+        entry[target] += key;
+      }
+      displayExpression();
+    }
+
+    function setEntryOperator(op) {
+      if (!entry.a) return;
+      entry.op = op;
+      displayExpression();
+    }
+
+    function backspaceEntry() {
+      if (entry.b) {
+        entry.b = entry.b.slice(0, -1);
+      } else if (entry.op) {
+        entry.op = "";
+      } else {
+        entry.a = entry.a.slice(0, -1);
+      }
+      displayExpression();
+    }
+
+    function commitEntry() {
+      if (!activeRow || !entry.a || !entry.op || !entry.b) return;
+      activeRow.querySelector(".value-a").value = entry.a;
+      activeRow.querySelector(".value-b").value = entry.b;
+      activeRow.querySelectorAll(".operator").forEach((op) => op.classList.remove("active"));
+      activeRow.querySelector(`[data-op="${entry.op}"]`).classList.add("active");
+      updateRow(activeRow);
+      clearEntry();
+      moveToNextRow();
+    }
+
+    function handleKey(key) {
+      if (/^[0-9.]$/.test(key)) appendNumberKey(key);
+      if (["/", "*", "+", "-"].includes(key)) setEntryOperator(key);
+      if (key === "back") backspaceEntry();
+      if (key === "clear") clearEntry();
+      if (key === "enter") commitEntry();
     }
 
     function updateRow(row) {
@@ -515,9 +752,7 @@
 
     function addRow() {
       const row = template.content.firstElementChild.cloneNode(true);
-      row.querySelectorAll("input").forEach((input) => {
-        input.addEventListener("input", () => updateRow(row));
-      });
+      row.addEventListener("click", () => setActiveRow(row));
       row.querySelectorAll(".operator").forEach((button) => {
         button.addEventListener("click", () => {
           row.querySelectorAll(".operator").forEach((op) => op.classList.remove("active"));
@@ -540,18 +775,37 @@
         row.querySelector('[data-op="/"]').classList.add("active");
         updateRow(row);
       });
+      setActiveRow(rowsEl.querySelector(".row"));
+      clearEntry();
     }
 
     function resetRows() {
       rowsEl.innerHTML = "";
       for (let i = 0; i < 6; i += 1) addRow();
+      setActiveRow(rowsEl.querySelector(".row"));
+      clearEntry();
       updateSummary();
     }
 
-    document.querySelector("#addRowTop").addEventListener("click", addRow);
-    document.querySelector("#addRowBottom").addEventListener("click", addRow);
+    function addRowAndSelect() {
+      setActiveRow(addRow());
+    }
+
+    document.querySelector("#addRowTop").addEventListener("click", addRowAndSelect);
+    document.querySelector("#addRowBottom").addEventListener("click", addRowAndSelect);
     document.querySelector("#clearAll").addEventListener("click", clearAll);
     document.querySelector("#resetRows").addEventListener("click", resetRows);
+    document.querySelectorAll("[data-key]").forEach((button) => {
+      button.addEventListener("click", () => handleKey(button.dataset.key));
+    });
+    window.addEventListener("keydown", (event) => {
+      const keyMap = { "Enter": "enter", "=": "enter", "Backspace": "back", "Escape": "clear" };
+      const key = keyMap[event.key] || event.key;
+      if (/^[0-9.]$/.test(key) || ["/", "*", "+", "-", "enter", "back", "clear"].includes(key)) {
+        event.preventDefault();
+        handleKey(key);
+      }
+    });
 
     resetRows();
   </script>
