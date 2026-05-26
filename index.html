@@ -7,19 +7,18 @@
   <style>
     :root {
       color-scheme: light;
-      --bg: #f4f7f9;
+      --bg: #f3f6f4;
       --sheet: #ffffff;
-      --grid: #cfd8dc;
-      --grid-dark: #9eb0b7;
-      --header: #eef3f5;
+      --grid: #d4dddf;
+      --grid-dark: #a8b7bc;
+      --header: #eef2f0;
       --text: #172126;
       --muted: #5f6e75;
       --green: #167a46;
       --green-dark: #0f5f35;
-      --green-soft: #e4f3eb;
-      --blue: #1d5f96;
+      --green-soft: #edf8f2;
       --warn: #a34713;
-      --shadow: 0 18px 42px rgba(26, 45, 55, .12);
+      --shadow: 0 10px 24px rgba(26, 45, 55, .10);
     }
 
     * {
@@ -108,22 +107,22 @@
       width: 100%;
       max-width: 720px;
       margin: 0 auto;
-      padding: 12px 10px 20px;
+      padding: 10px 8px 18px;
       flex: 1;
     }
 
     .summary {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-bottom: 10px;
+      gap: 6px;
+      margin-bottom: 8px;
     }
 
     .summary-cell {
       background: var(--sheet);
       border: 1px solid var(--grid);
-      border-radius: 8px;
-      padding: 10px;
+      border-radius: 4px;
+      padding: 8px 10px;
       min-width: 0;
     }
 
@@ -138,7 +137,7 @@
     .summary-value {
       display: block;
       font-variant-numeric: tabular-nums;
-      font-size: 20px;
+      font-size: 18px;
       line-height: 1.15;
       font-weight: 700;
       color: var(--green-dark);
@@ -148,7 +147,7 @@
     .sheet {
       background: var(--sheet);
       border: 1px solid var(--grid-dark);
-      border-radius: 8px;
+      border-radius: 4px;
       overflow: hidden;
       box-shadow: var(--shadow);
     }
@@ -156,7 +155,7 @@
     .sheet-head,
     .row {
       display: grid;
-      grid-template-columns: 34px minmax(0, 1fr);
+      grid-template-columns: 32px minmax(0, 1fr);
     }
 
     .corner,
@@ -173,7 +172,7 @@
     .column-labels,
     .fields {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 90px minmax(0, 1fr);
+      grid-template-columns: minmax(0, 1fr) 62px minmax(0, 1fr) minmax(0, 1.1fr);
     }
 
     .column-labels span {
@@ -186,7 +185,7 @@
       line-height: 1;
       font-weight: 700;
       text-align: center;
-      padding: 9px 4px;
+      padding: 8px 3px;
     }
 
     .column-labels span:last-child {
@@ -194,7 +193,7 @@
     }
 
     .row {
-      min-height: 174px;
+      min-height: 54px;
       border-bottom: 1px solid var(--grid);
     }
 
@@ -215,65 +214,54 @@
     .result-cell {
       min-width: 0;
       border-right: 1px solid var(--grid);
-      padding: 8px;
+      padding: 5px;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      gap: 8px;
+      gap: 0;
     }
 
     .result-cell {
-      border-right: 0;
       background: #fbfdfc;
     }
 
-    label {
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.2;
-      font-weight: 700;
+    .fields > :last-child {
+      border-right: 0;
     }
 
-    input[type="number"],
-    .unit-input {
+    input[type="number"] {
       width: 100%;
-      min-height: 46px;
-      border: 1px solid var(--grid-dark);
-      border-radius: 7px;
-      padding: 9px 8px;
-      background: #fff;
+      height: 42px;
+      border: 0;
+      border-radius: 0;
+      padding: 7px 6px;
+      background: transparent;
       color: var(--text);
-      font-size: 18px;
+      font-size: 17px;
       line-height: 1.2;
       text-align: right;
       font-variant-numeric: tabular-nums;
       outline: none;
     }
 
-    input[type="number"]:focus,
-    .unit-input:focus {
-      border-color: var(--green);
-      box-shadow: 0 0 0 3px rgba(22, 122, 70, .16);
-    }
-
-    .unit-input {
-      text-align: left;
-      font-size: 15px;
+    input[type="number"]:focus {
+      background: #fff;
+      box-shadow: inset 0 0 0 2px var(--green);
     }
 
     .operator-group {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 6px;
+      gap: 3px;
     }
 
     .operator {
-      min-height: 42px;
-      border: 1px solid var(--grid-dark);
-      border-radius: 7px;
+      min-height: 20px;
+      border: 1px solid transparent;
+      border-radius: 4px;
       background: #fff;
       color: var(--text);
-      font-size: 19px;
+      font-size: 13px;
       font-weight: 800;
       cursor: pointer;
       -webkit-tap-highlight-color: transparent;
@@ -289,44 +277,28 @@
       transform: scale(.97);
     }
 
-    .result-label {
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 700;
-    }
-
     .result-value {
-      min-height: 46px;
+      min-height: 42px;
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      border: 1px solid var(--grid-dark);
-      border-radius: 7px;
-      padding: 8px;
+      border: 0;
+      border-radius: 0;
+      padding: 7px 6px;
       background: var(--green-soft);
       color: var(--green-dark);
-      font-size: 20px;
+      font-size: 17px;
       line-height: 1.15;
       font-weight: 800;
       font-variant-numeric: tabular-nums;
       overflow-wrap: anywhere;
       text-align: right;
     }
-
-    .unit-line {
-      min-height: 21px;
-      color: var(--blue);
-      font-size: 13px;
-      line-height: 1.25;
-      text-align: right;
-      overflow-wrap: anywhere;
-    }
-
     .message {
       color: var(--warn);
-      font-size: 12px;
+      font-size: 10px;
       line-height: 1.25;
-      min-height: 15px;
+      min-height: 0;
       text-align: right;
     }
 
@@ -365,21 +337,18 @@
 
       .column-labels,
       .fields {
-        grid-template-columns: minmax(0, 1fr) 82px minmax(0, 1fr);
+        grid-template-columns: minmax(0, 1fr) 58px minmax(0, 1fr) minmax(0, 1.1fr);
       }
 
       .field,
       .op-cell,
       .result-cell {
-        padding: 7px;
+        padding: 4px;
       }
 
-      input[type="number"] {
-        font-size: 17px;
-      }
-
+      input[type="number"],
       .result-value {
-        font-size: 18px;
+        font-size: 16px;
       }
     }
   </style>
@@ -423,7 +392,8 @@
           <div class="column-labels">
             <span>A 数値</span>
             <span>演算</span>
-            <span>B 数値 / 結果</span>
+            <span>B 数値</span>
+            <span>C 結果</span>
           </div>
         </div>
         <div id="rows"></div>
@@ -431,7 +401,7 @@
 
       <div class="actions">
         <button class="action primary" type="button" id="addRowBottom">行を追加</button>
-        <button class="action" type="button" id="resetRows">3行に戻す</button>
+        <button class="action" type="button" id="resetRows">6行に戻す</button>
       </div>
     </main>
   </div>
@@ -441,14 +411,10 @@
       <div class="row-number"></div>
       <div class="fields">
         <div class="field">
-          <label>左の数値</label>
-          <input class="value-a" type="number" inputmode="decimal" step="any" placeholder="0">
-          <label>左の単位</label>
-          <input class="unit-input unit-a" type="text" placeholder="例: 円">
+          <input class="value-a" type="number" inputmode="decimal" step="any" placeholder="0" aria-label="左の数値">
         </div>
 
         <div class="op-cell">
-          <label>四則演算</label>
           <div class="operator-group" role="group" aria-label="演算子">
             <button class="operator active" type="button" data-op="/">÷</button>
             <button class="operator" type="button" data-op="*">×</button>
@@ -458,11 +424,11 @@
         </div>
 
         <div class="result-cell">
-          <label>右の数値</label>
-          <input class="value-b" type="number" inputmode="decimal" step="any" placeholder="0">
-          <div class="result-label">結果</div>
+          <input class="value-b" type="number" inputmode="decimal" step="any" placeholder="0" aria-label="右の数値">
+        </div>
+
+        <div class="result-cell">
           <div class="result-value">0</div>
-          <div class="unit-line"></div>
           <div class="message"></div>
         </div>
       </div>
@@ -475,10 +441,10 @@
     const filledCountEl = document.querySelector("#filledCount");
     const resultTotalEl = document.querySelector("#resultTotal");
     const operators = {
-      "/": { label: "÷", unit: (a, b) => b ? `${a || "A"} / ${b}` : a },
-      "*": { label: "×", unit: (a, b) => [a, b].filter(Boolean).join(" * ") },
-      "+": { label: "+", unit: (a) => a },
-      "-": { label: "−", unit: (a) => a }
+      "/": { label: "÷" },
+      "*": { label: "×" },
+      "+": { label: "+" },
+      "-": { label: "−" }
     };
 
     function formatNumber(value) {
@@ -500,17 +466,14 @@
     function updateRow(row) {
       const inputA = row.querySelector(".value-a");
       const inputB = row.querySelector(".value-b");
-      const unitA = row.querySelector(".unit-a").value.trim();
       const activeOp = row.querySelector(".operator.active").dataset.op;
       const resultEl = row.querySelector(".result-value");
-      const unitLineEl = row.querySelector(".unit-line");
       const messageEl = row.querySelector(".message");
       const hasA = inputA.value !== "";
       const hasB = inputB.value !== "";
 
       if (!hasA || !hasB) {
         resultEl.textContent = "0";
-        unitLineEl.textContent = "";
         messageEl.textContent = "";
         row.dataset.result = "";
         updateSummary();
@@ -523,7 +486,6 @@
 
       if (result.value === null) {
         resultEl.textContent = "-";
-        unitLineEl.textContent = "";
         messageEl.textContent = result.message;
         row.dataset.result = "";
         updateSummary();
@@ -531,7 +493,6 @@
       }
 
       resultEl.textContent = formatNumber(result.value);
-      unitLineEl.textContent = operators[activeOp].unit(unitA, "単位");
       messageEl.textContent = "";
       row.dataset.result = String(result.value);
       updateSummary();
@@ -583,7 +544,7 @@
 
     function resetRows() {
       rowsEl.innerHTML = "";
-      for (let i = 0; i < 3; i += 1) addRow();
+      for (let i = 0; i < 6; i += 1) addRow();
       updateSummary();
     }
 
