@@ -75,6 +75,7 @@
       background: rgba(255, 255, 255, .13);
       cursor: pointer;
       -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
 
     .icon-button:active {
@@ -276,6 +277,7 @@
       font-weight: 800;
       cursor: pointer;
       -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
 
     .operator.active {
@@ -329,6 +331,7 @@
       font-weight: 700;
       cursor: pointer;
       -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
 
     .action.primary {
@@ -414,6 +417,8 @@
       font-weight: 800;
       cursor: pointer;
       -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      user-select: none;
     }
 
     .key:active {
@@ -797,6 +802,9 @@
     document.querySelector("#resetRows").addEventListener("click", resetRows);
     document.querySelectorAll("[data-key]").forEach((button) => {
       button.addEventListener("click", () => handleKey(button.dataset.key));
+    });
+    document.querySelector(".keypad").addEventListener("dblclick", (event) => {
+      event.preventDefault();
     });
     window.addEventListener("keydown", (event) => {
       const keyMap = { "Enter": "enter", "=": "enter", "Backspace": "back", "Escape": "clear" };
