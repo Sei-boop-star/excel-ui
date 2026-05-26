@@ -540,12 +540,12 @@
         <div class="keys">
           <button class="key utility-key" type="button" data-key="clear">C</button>
           <button class="key utility-key" type="button" data-key="back">⌫</button>
-          <button class="key op-key" type="button" data-key="/">÷</button>
+          <button class="key op-key" type="button" data-key="+">+</button>
           <button class="key op-key" type="button" data-key="*">×</button>
           <button class="key" type="button" data-key="7">7</button>
           <button class="key" type="button" data-key="8">8</button>
           <button class="key" type="button" data-key="9">9</button>
-          <button class="key op-key" type="button" data-key="+">+</button>
+          <button class="key op-key" type="button" data-key="/">÷</button>
           <button class="key" type="button" data-key="4">4</button>
           <button class="key" type="button" data-key="5">5</button>
           <button class="key" type="button" data-key="6">6</button>
@@ -611,7 +611,10 @@
       const rounded = Math.abs(value) >= 100000000
         ? value.toPrecision(8)
         : Number(value.toFixed(8)).toString();
-      return Number(rounded).toLocaleString("ja-JP", { maximumFractionDigits: 8 });
+      return Number(rounded).toLocaleString("ja-JP", {
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 1
+      });
     }
 
     function calculate(a, b, op) {
